@@ -11,18 +11,29 @@ import { useState } from 'react';
 export default function App() {
   const [navHeight, setNavHeight] = useState(0);
   const [pullDownHeight, setPullDownHeight] = useState(60);
+  const [yStart, setYStart] = useState(0);
+  const [yEnd, setYEnd] = useState(0);
 
   const getNavHeight = e => {
     setNavHeight(e.nativeEvent.layout.height);
   };
 
   const onPullDownPressIn = e => {
-    console.log(e.nativeEvent);
+    setPullDownHeight(pullDownHeight + e.nativeEvent)
   };
 
-  const onPullDownPressOut = e => {
-    console.log(e.nativeEvent);
-  };
+  const onMove = (e) => {
+    setPullDownHeight(pullDownHeight + e.nativeEvent.locationY * 0.1)
+    setYStart(e.nativeEvent.pageY)
+  }
+
+  const onMoveEnd = (e) => {
+    if (e.nativeEvent.pageY > yStart) {
+      setPullDownHeight(160)
+    } else {
+      setPullDownHeight(60)
+    }
+  }
 
   console.log(navHeight);
   return (
@@ -48,13 +59,12 @@ export default function App() {
         style={tw` top-[${navHeight}px] z-10 rounded-b-3xl absolute w-full h-${pullDownHeight.toString()} bg-primary`}
       >
         <View style={tw`flex-1 rounded-b-3xl bg-gray-white m-1`}></View>
+  
         <Pressable
-          onPressIn={onPullDownPressIn}
-          onPressOut={onPullDownPressOut}
         >
-          <View style={tw`w-18 ml-auto mr-auto h-8 bg-gray-500`}></View>
+          <View onStartShouldSetResponder={()=>true} onResponderMove={onMove} onResponderEnd={onMoveEnd} style={tw`w-18 ml-auto mr-auto h-8 bg-gray-800`}></View>
         </Pressable>
-      </View>
+        </View>
       <View style={tw`w-full mb-2 -z-1 h-60`} />
       <View style={tw`w-full flex-1 flex flex-row`}>
         <View style={tw`w-40 mr-1 h-full bg-darkGrey`}></View>
