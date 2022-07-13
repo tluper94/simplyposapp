@@ -18,7 +18,7 @@ export default function App() {
     <View style={tw`bg-gray-black flex-1 flex-col`}>
       <Navbar getNavHeight={getNavHeight} />
       <Cart navHeight={navHeight} />
-      <View style={tw`w-full mb-2 -z-1 h-60`} />
+      <View style={tw`w-full mb-2 -z-1 h-70`} />
       <View style={tw`w-full flex-1 flex flex-row`}>
         <View style={tw`w-40 mr-1 h-full bg-darkGrey`}></View>
         <View style={tw`flex-1 h-full bg-darkGrey`}></View>
