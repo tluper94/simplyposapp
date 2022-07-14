@@ -3,7 +3,7 @@ module.exports = {
   theme: {
     colors: {
       transparent: '#2c7ce500',
-      primary: '#2c7be5',
+      primary: '#4290f7',
       secondary: '#748194',
       success: '#00d27a',
       info: '#27bcfd',
@@ -12,7 +12,9 @@ module.exports = {
       light: '#f9fafd',
       dark: '#0b1727',
       darkMono: '#1e293b',
-      darkGrey: '#252525'
+      darkGrey: '#252525',
+      white: '#fff',
+      black: '#000'
     },
     extend: {
       darkMode: 'class',

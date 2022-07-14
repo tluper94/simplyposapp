@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Text, View } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import tw from './libs/TailwindConfig';
@@ -6,6 +6,7 @@ import { Header, Icon } from '@rneui/themed';
 import { Motion } from '@legendapp/motion';
 import Cart from './components/cart/Cart';
 import Navbar from './components/navbar/Navbar';
+import * as ScreenOrientation from 'expo-screen-orientation';
 
 export default function App() {
   const [navHeight, setNavHeight] = useState(0);
@@ -13,6 +14,15 @@ export default function App() {
   const getNavHeight = e => {
     setNavHeight(e.nativeEvent.layout.height);
   };
+
+  useEffect(() => {
+    const changeScreenOrientation = async () => {
+      await ScreenOrientation.lockAsync(
+        ScreenOrientation.OrientationLock.LANDSCAPE
+      );
+    };
+    changeScreenOrientation();
+  }, []);
 
   return (
     <View style={tw`bg-gray-black flex-1 flex-col`}>

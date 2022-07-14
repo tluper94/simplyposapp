@@ -1,10 +1,11 @@
-import { View, Text, StyleSheet } from 'react-native';
-import { useState } from 'react';
+import { LayoutAnimation, View, Text, StyleSheet } from 'react-native';
+import { useRef, useEffect, useState } from 'react';
 import tw from '../../libs/TailwindConfig';
 import { Dimensions } from 'react-native';
 
 const Cart = ({ navHeight }) => {
   const [pullDownHeight, setPullDownHeight] = useState(70);
+  const [cartWidth, setCartWidth] = useState(0);
 
   const onMove = e => {
     const height = pullDownHeight + e.nativeEvent.locationY * 0.1;
@@ -14,6 +15,7 @@ const Cart = ({ navHeight }) => {
   };
 
   const onMoveEnd = e => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
     if (e.nativeEvent.locationY <= 0) {
       setPullDownHeight(70);
     } else {
@@ -21,29 +23,54 @@ const Cart = ({ navHeight }) => {
     }
   };
 
+  console.log(cartWidth * 0.02);
+
+  const getCartWidth = e => {
+    setCartWidth(e.nativeEvent.layout.width);
+  };
+
   return (
     <View
+      onLayout={getCartWidth}
       style={tw`top-[${navHeight}px] px-1 pb-1 z-10 rounded-b-3xl absolute h-${pullDownHeight} w-full bg-primary`}
     >
-      <View style={tw`w-full h-8`}></View>
+      <View style={tw`flex flex-row w-full justify-end h-8`}>
+        <View style={{ flexDirection: 'row', marginRight: cartWidth * 0.2 }}>
+          <Text
+            style={{ ...styles.cartTopLabel, marginRight: cartWidth * 0.1 }}
+          >
+            Unit Price
+          </Text>
+
+          <Text style={{ ...styles.cartTopLabel }}>Quantity</Text>
+
+          <Text style={{ ...styles.cartTopLabel }}>Unit Price</Text>
+
+          <Text style={{ ...styles.cartTopLabel }}>Unit Price</Text>
+        </View>
+      </View>
       <View style={tw`h-${pullDownHeight - 20} w-full bg-gray-white`}></View>
       <View
         style={tw`flex-1 flex flex-row justify-evenly items-center rounded-b-3xl w-full bg-gray-black `}
       >
-        <View>
-          <Text style={tw`text-xl font-bold text-primary`}>Sub Total</Text>
+        <View style={styles.cartLabelContainer}>
+          <Text style={styles.cartLabel}>Sub Total:</Text>
+          <Text style={styles.cartLabelAmount}>$0.00</Text>
         </View>
 
-        <View>
-          <Text style={tw`text-xl font-bold text-primary`}>Taxes</Text>
+        <View style={styles.cartLabelContainer}>
+          <Text style={styles.cartLabel}>Taxes:</Text>
+          <Text style={styles.cartLabelAmount}>$0.00</Text>
         </View>
 
-        <View>
-          <Text style={tw`text-xl font-bold text-primary`}>Total</Text>
+        <View style={styles.cartLabelContainer}>
+          <Text style={styles.cartLabel}>Total:</Text>
+          <Text style={styles.cartLabelAmount}>$0.00</Text>
         </View>
 
-        <View>
-          <Text style={tw`text-xl font-bold text-primary`}>Balance</Text>
+        <View style={styles.cartLabelContainer}>
+          <Text style={styles.cartLabel}>Balance:</Text>
+          <Text style={styles.cartLabelAmount}>$0.00</Text>
         </View>
       </View>
       <View
@@ -51,7 +78,7 @@ const Cart = ({ navHeight }) => {
         onResponderMove={onMove}
         onResponderEnd={onMoveEnd}
         hitSlop={{ top: 25, bottom: 40, left: 40, right: 25 }}
-        style={styles.arrow}
+        style={styles.arrow(cartWidth)}
       >
         <View style={styles.insideArrow}></View>
       </View>
@@ -60,19 +87,19 @@ const Cart = ({ navHeight }) => {
 };
 
 const styles = StyleSheet.create({
-  arrow: {
+  arrow: cartwidth => ({
     position: 'absolute',
     width: 200,
     height: 0,
     top: '100%',
-    left: '40%',
+    left: cartwidth * 0.5 - 100,
     borderLeftWidth: 10,
     borderRightWidth: 10,
     borderLeftColor: 'transparent',
     borderRightColor: 'transparent',
     borderTopColor: '#2c7be5',
     borderTopWidth: 10
-  },
+  }),
   insideArrow: {
     position: 'relative',
     width: 185,
@@ -85,7 +112,11 @@ const styles = StyleSheet.create({
     borderRightColor: 'transparent',
     borderTopColor: 'white',
     borderTopWidth: 5
-  }
+  },
+  cartLabelContainer: tw`flex flex-row`,
+  cartLabel: tw`text-xl font-bold text-primary mr-4`,
+  cartLabelAmount: tw`text-xl font-bold text-white mr-4`,
+  cartTopLabel: tw`text-base font-bold text-white mr-4`
 });
 
 export default Cart;
