@@ -1,9 +1,7 @@
 import { useEffect, useState } from 'react';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import tw from './libs/TailwindConfig';
-import { Icon } from '@rneui/themed';
-import { Motion } from '@legendapp/motion';
 import Cart from './components/cart/Cart';
 import Navbar from './components/navbar/Navbar';
 import * as ScreenOrientation from 'expo-screen-orientation';
@@ -15,8 +13,15 @@ import {
   Calendar,
   Clipboard,
   Waiter,
-  PaperStack
+  PaperStack,
+  BoxSearch,
+  Search,
+  Printer,
+  DollarSign,
+  SquareCheck,
+  ThreeDots
 } from './components/icons/Icons';
+import { Icon } from '@rneui/themed';
 
 export default function App() {
   const [navHeight, setNavHeight] = useState(0);
@@ -49,19 +54,18 @@ export default function App() {
             </View>
           ))}
         </View>
-        <View style={tw`flex-1 h-full bg-darkGrey`}>
-          <Food width={100} height={100} stroke="#fff" />
-        </View>
+        <View style={tw`flex-1 h-full bg-darkGrey`}></View>
         <View
           style={tw`flex justify-center w-32 px-1 mr-1  ml-1 h-full bg-darkGrey`}
         >
-          {blueBtns.map(
-            ({ width, height, color, header, footer, title }, idx) => (
-              <View key={idx + title} style={tw`mb-2  `}>
-                <SquareBtn width={width} height={height} color={color} />
-              </View>
-            )
-          )}
+          {blueBtns.map((btn, idx) => (
+            <View
+              key={idx + Math.floor(Math.random() * 10000000)}
+              style={tw`mb-2  `}
+            >
+              <SquareBtn {...btn} />
+            </View>
+          ))}
         </View>
       </View>
       <StatusBar style="light" />
@@ -154,32 +158,93 @@ const greenBtns = [
 
 const blueBtns = [
   {
-    title: 'New Order',
     color: '#4597F6',
     width: 115,
-    height: 92
+    height: 92,
+    icon: (
+      <View>
+        <View
+          style={{
+            position: 'relative',
+            marginTop: 12,
+            zIndex: 1,
+            marginRight: 10
+          }}
+        >
+          <BoxSearch
+            width={75}
+            height={75}
+            stroke="#e7e7e7"
+            strokeWidth={2}
+            fill="#e7e7e7"
+          />
+        </View>
+        <View style={{ position: 'absolute', left: 30, top: 20 }}>
+          <Search
+            width={40}
+            height={40}
+            stroke="#e7e7e736"
+            strokeWidth={1}
+            fill="#e7e7e7c7"
+          />
+        </View>
+      </View>
+    )
   },
   {
-    title: 'New Order',
     color: '#4597F6',
     width: 115,
-    height: 92
+    height: 92,
+    icon: (
+      <Printer
+        marginTop={10}
+        width={75}
+        height={75}
+        stroke="#e7e7e7"
+        strokeWidth={5}
+        fill="#e7e7e7"
+      />
+    )
   },
   {
-    title: 'New Order',
     color: '#4597F6',
     width: 115,
-    height: 92
+    height: 92,
+    icon: (
+      <ThreeDots
+        marginTop={15}
+        width={65}
+        height={65}
+        stroke="#e7e7e7"
+        fill="#e7e7e7"
+      />
+    )
   },
   {
-    title: 'New Order',
     color: '#4597F6',
     width: 115,
-    height: 92
+    height: 92,
+    icon: (
+      <DollarSign
+        marginTop={10}
+        width={75}
+        height={75}
+        stroke="#e7e7e7"
+        fill="#e7e7e7"
+      />
+    )
   },
   {
-    title: 'New Order',
     color: '#4597F6',
+    icon: (
+      <SquareCheck
+        marginTop={10}
+        width={75}
+        height={75}
+        stroke="#e7e7e7"
+        fill="#e7e7e7"
+      />
+    ),
     width: 115,
     height: 92
   }

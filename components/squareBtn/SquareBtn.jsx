@@ -1,7 +1,6 @@
 import { View, Text, Pressable, StyleSheet } from 'react-native';
 
 const SquareBtn = ({ header, icon, footer, color, width, height, title }) => {
-  console.log(icon);
   return (
     <Pressable style={styles.button(color, width, height)}>
       {header && (
