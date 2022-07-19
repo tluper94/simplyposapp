@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
-import { View } from 'react-native';
+import { Dimensions, View } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import tw from './libs/TailwindConfig';
 import Cart from './components/cart/Cart';
 import Navbar from './components/navbar/Navbar';
 import * as ScreenOrientation from 'expo-screen-orientation';
 import SquareBtn from './components/squareBtn/SquareBtn';
+import { s, vs, ms, mvs } from 'react-native-size-matters';
 
 //Icon imports
 import {
@@ -26,6 +27,8 @@ import { Icon } from '@rneui/themed';
 export default function App() {
   const [navHeight, setNavHeight] = useState(0);
 
+  const screenHeight = Dimensions.get('window').height;
+
   const getNavHeight = e => {
     setNavHeight(e.nativeEvent.layout.height);
   };
@@ -39,11 +42,18 @@ export default function App() {
     changeScreenOrientation();
   }, []);
 
+  console.log(screenHeight * 0.29);
+
   return (
     <View style={tw`bg-gray-black flex-1 flex-col`}>
       <Navbar getNavHeight={getNavHeight} />
       <Cart navHeight={navHeight} />
-      <View style={tw`w-full mb-2 -z-1 h-59`} />
+      <View
+        style={{
+          ...tw`w-full mb-2 -z-1`,
+          height: vs(140)
+        }}
+      />
       <View style={tw`w-full flex-1 flex flex-row`}>
         <View
           style={tw`flex justify-center w-35 pl-2 pr-3 pt-1 mr-1 h-full bg-darkGrey`}
@@ -86,8 +96,8 @@ const greenBtns = [
         fill="#e7e7e7"
       />
     ),
-    width: 115,
-    height: 92
+    width: '95%',
+    aspect: 8
   },
   {
     title: 'Status Filter',
@@ -103,8 +113,8 @@ const greenBtns = [
         fill="#e7e7e7"
       />
     ),
-    width: 115,
-    height: 92
+    width: '95%',
+    aspect: 8
   },
   {
     title: 'Server Filter',
@@ -119,8 +129,8 @@ const greenBtns = [
         fill="#e7e7e7"
       />
     ),
-    width: 115,
-    height: 92
+    width: '95%',
+    aspect: 8
   },
   {
     title: 'Type Filter',
@@ -135,8 +145,8 @@ const greenBtns = [
         fill="#e7e7e7"
       />
     ),
-    width: 115,
-    height: 92
+    width: '95%',
+    aspect: 8
   },
   {
     title: 'Date Filter',
@@ -151,16 +161,16 @@ const greenBtns = [
         fill="#e7e7e7"
       />
     ),
-    width: 115,
-    height: 92
+    width: '95%',
+    aspect: 8
   }
 ];
 
 const blueBtns = [
   {
     color: '#4597F6',
-    width: 115,
-    height: 92,
+    width: '90%',
+    aspect: 8.5,
     icon: (
       <View>
         <View
@@ -193,8 +203,8 @@ const blueBtns = [
   },
   {
     color: '#4597F6',
-    width: 115,
-    height: 92,
+    width: '90%',
+    aspect: 8.5,
     icon: (
       <Printer
         marginTop={10}
@@ -208,8 +218,8 @@ const blueBtns = [
   },
   {
     color: '#4597F6',
-    width: 115,
-    height: 92,
+    width: '90%',
+    aspect: 8.5,
     icon: (
       <ThreeDots
         marginTop={15}
@@ -222,8 +232,8 @@ const blueBtns = [
   },
   {
     color: '#4597F6',
-    width: 115,
-    height: 92,
+    width: '90%',
+    aspect: 8.5,
     icon: (
       <DollarSign
         marginTop={10}
@@ -245,7 +255,7 @@ const blueBtns = [
         fill="#e7e7e7"
       />
     ),
-    width: 115,
-    height: 92
+    width: '90%',
+    aspect: 8.5
   }
 ];

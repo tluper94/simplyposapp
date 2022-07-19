@@ -3,13 +3,15 @@ import { useRef, useEffect, useState } from 'react';
 import tw from '../../libs/TailwindConfig';
 import { Dimensions } from 'react-native';
 
+const screenHeight = Dimensions.get('window').height;
+
 const Cart = ({ navHeight }) => {
-  const [pullDownHeight, setPullDownHeight] = useState(60);
+  const [pullDownHeight, setPullDownHeight] = useState(29);
   const [cartWidth, setCartWidth] = useState(0);
 
   const onMove = e => {
     const height = pullDownHeight + e.nativeEvent.locationY * 0.1;
-    if (height > 60) {
+    if (height > 29) {
       setPullDownHeight(height);
     }
   };
@@ -17,9 +19,9 @@ const Cart = ({ navHeight }) => {
   const onMoveEnd = e => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
     if (e.nativeEvent.locationY <= 0) {
-      setPullDownHeight(60);
+      setPullDownHeight(29);
     } else {
-      setPullDownHeight(160);
+      setPullDownHeight(85);
     }
   };
 
@@ -32,7 +34,10 @@ const Cart = ({ navHeight }) => {
   return (
     <View
       onLayout={getCartWidth}
-      style={tw`top-[${navHeight}px] px-1 pb-1 z-10 rounded-b-3xl absolute h-${pullDownHeight} w-full bg-primary`}
+      style={{
+        ...tw`top-[${navHeight}px] px-1 pb-1 z-10 rounded-b-3xl absolute w-full bg-primary`,
+        height: `${pullDownHeight}%`
+      }}
     >
       <View style={tw`flex flex-row w-full justify-end h-5`}>
         <View style={{ flexDirection: 'row', marginRight: cartWidth * 0.18 }}>
@@ -57,9 +62,13 @@ const Cart = ({ navHeight }) => {
           <Text style={{ ...styles.cartTopLabel }}>Discount</Text>
         </View>
       </View>
-      <View style={tw`h-${pullDownHeight - 15} w-full bg-gray-white`}></View>
       <View
-        style={tw`flex-1 flex flex-row justify-evenly items-center rounded-b-3xl w-full bg-gray-black `}
+        style={{
+          ...tw`w-full bg-gray-white flex-1`
+        }}
+      ></View>
+      <View
+        style={tw`h-12 flex flex-row justify-evenly items-center rounded-b-3xl w-full bg-gray-black `}
       >
         <View style={styles.cartLabelContainer}>
           <Text style={styles.cartLabel}>Sub Total:</Text>
