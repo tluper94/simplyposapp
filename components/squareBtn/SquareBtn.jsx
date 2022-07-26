@@ -1,22 +1,31 @@
 import { View, Text, Pressable, StyleSheet } from 'react-native';
 
-const SquareBtn = ({ header, icon, footer, color, width, aspect, title }) => {
+const SquareBtn = ({
+  header,
+  icon,
+  footer,
+  color,
+  width,
+  height,
+  title,
+  style
+}) => {
   return (
-    <Pressable style={styles.button(color, width, aspect)}>
+    <Pressable style={{ ...styles.button(color, width, height), ...style }}>
       {header && (
         <View style={styles.headerContainer}>
           <Text style={styles.header}>{header}</Text>
         </View>
       )}
       {icon}
-      <Text style={styles.title}>{title}</Text>
+      {title && <Text style={styles.title}>{title}</Text>}
       {footer && <Text>{footer}</Text>}
     </Pressable>
   );
 };
 
 const styles = StyleSheet.create({
-  button: (color, width, aspect) => ({
+  button: (color, width, height) => ({
     flexDirection: 'column',
     shadowColor: '#000000ad',
     shadowOffset: { width: 6, height: 5 },
@@ -25,7 +34,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     width: width,
-    aspectRatio: 10 / aspect,
+    height: height,
     borderRadius: 10,
     elevation: 2,
     backgroundColor: color

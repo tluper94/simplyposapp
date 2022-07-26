@@ -6,6 +6,11 @@ import Cart from './components/cart/Cart';
 import Navbar from './components/navbar/Navbar';
 import colors from './theme/colors';
 import useScreenOrientation from './hooks/useScreenOrientaition';
+import SquareBtn from './components/squareBtn/SquareBtn';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import FontAwsome from 'react-native-vector-icons/FontAwesome';
+import Entypo from 'react-native-vector-icons/Entypo';
+import Material from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export default function App() {
   const [navHeight, setNavHeight] = useState(0);
@@ -25,82 +30,99 @@ export default function App() {
     // setOrientation(getOrientation);
   };
 
-  const orderViewPortrait = () => (
-    <View style={portraitStyles.orderViewContainer(navHeight, screenHeight)}>
-      <Cart />
-      <View
-        style={{
-          height: '10%',
-          backgroundColor: colors.darkGrey,
-          borderRadius: 18
-        }}
-      ></View>
-      <View style={portraitStyles.orderNavContainer}>
-        <View style={portraitStyles.categoryContainer}></View>
-        <View style={portraitStyles.menuItemsContainer}></View>
-      </View>
-    </View>
-  );
-
-  const orderViewLandscape = () => (
+  const OrderView = () => (
     <View style={styles.orderViewContainer(navHeight, screenHeight)}>
-      <View style={{ width: '35%', marginRight: '.2%' }}>
+      <View style={{ width: '37%', marginRight: '.2%' }}>
         <Cart />
         <View
           style={{
             flex: 1,
-            backgroundColor: colors.darkGrey,
-            borderRadius: 18
+            width: '100%',
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center'
           }}
-        ></View>
+        >
+          <SquareBtn
+            width="19%"
+            height={'90%'}
+            icon={
+              <Material
+                name="note-search-outline"
+                color={colors.white}
+                size={screenHeight * 0.08}
+              />
+            }
+            color={colors.primary}
+            style={{ marginRight: '1%' }}
+          />
+          <SquareBtn
+            width="19%"
+            height={'90%'}
+            icon={
+              <AntDesign
+                name="printer"
+                color={colors.white}
+                size={screenHeight * 0.08}
+              />
+            }
+            color={colors.primary}
+            style={{ marginRight: '1%' }}
+          />
+          <SquareBtn
+            width="19%"
+            height={'90%'}
+            icon={
+              <Entypo
+                name="dots-three-horizontal"
+                color={colors.white}
+                size={screenHeight * 0.08}
+              />
+            }
+            color={colors.primary}
+            style={{ marginRight: '1%' }}
+          />
+          <SquareBtn
+            width="19%"
+            height={'90%'}
+            icon={
+              <FontAwsome
+                name="dollar"
+                color={colors.white}
+                size={screenHeight * 0.08}
+              />
+            }
+            color={colors.primary}
+            style={{ marginRight: '1%' }}
+          />
+          <SquareBtn
+            width="19%"
+            icon={
+              <AntDesign
+                name="checksquareo"
+                color={colors.white}
+                size={screenHeight * 0.08}
+              />
+            }
+            height={'90%'}
+            color={colors.primary}
+            style={{ marginRight: '1%' }}
+          />
+        </View>
       </View>
       <View style={styles.categoryContainer}></View>
       <View style={styles.menuItemsContainer}></View>
     </View>
   );
 
-  const displayOrderView = () => {
-    return orientation === 'portrait'
-      ? orderViewPortrait()
-      : orderViewLandscape();
-  };
-
   return (
     <View onLayout={getScreenInfo} style={styles.App}>
       <Navbar getNavHeight={getNavHeight} />
-      {displayOrderView()}
+      <OrderView />
       <StatusBar style="light" />
     </View>
   );
 }
-
-const portraitStyles = StyleSheet.create({
-  orderViewContainer: (navHeight, screenHeight) => ({
-    flexDirection: 'column',
-    height: screenHeight - navHeight,
-    width: '100%'
-  }),
-  orderNavContainer: {
-    flex: 1,
-    width: '100%',
-    flexDirection: 'row'
-  },
-  categoryContainer: {
-    height: '100%',
-    width: '25%',
-    backgroundColor: colors.darkGrey,
-    marginRight: '.2%',
-    borderWidth: 1,
-    borderRadius: 18
-  },
-  menuItemsContainer: {
-    flex: 1,
-    backgroundColor: colors.darkGrey,
-    marginRight: '.2%',
-    borderWidth: 1,
-    borderRadius: 18
-  }
-});
 
 const styles = StyleSheet.create({
   App: {
@@ -115,7 +137,7 @@ const styles = StyleSheet.create({
   }),
   categoryContainer: {
     height: '100%',
-    width: '18%',
+    width: '17%',
     backgroundColor: colors.darkGrey,
     marginRight: '.2%',
     borderWidth: 1,
