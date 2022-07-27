@@ -90,7 +90,9 @@ const OrderView = ({ navHeight, screenHeight }) => (
       </View>
     </View>
     <View style={styles.categoryContainer}>
-      <MenuCategories />
+      <View style={{ height: '100%' }}>
+        <MenuCategories />
+      </View>
     </View>
     <View style={styles.menuItemsContainer}>
       <MenuItems />
@@ -108,6 +110,7 @@ const styles = StyleSheet.create({
   }),
   categoryContainer: {
     flex: 1,
+    height: '100%',
     backgroundColor: colors.darkGrey,
     marginRight: '.2%',
     borderWidth: 1,

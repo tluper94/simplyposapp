@@ -1,19 +1,24 @@
 import { View, Text, StyleSheet, FlatList } from 'react-native';
 import colors from '../../theme/colors';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 import { Dimensions } from 'react-native';
 
 import { cartData } from '../../mockData';
+import { useSelector } from 'react-redux';
 
 const screenHeight = Dimensions.get('window').height;
 
 const Cart = () => {
+  const cartRef = useRef();
   const [cartWidth, setCartWidth] = useState(0);
+  const { cartItems } = useSelector(state => state.cart);
 
   const getCartWidth = e => {
     setCartWidth(e.nativeEvent.layout.width);
   };
+
+  console.log(cartItems);
 
   const displayTopLabels = () => {
     return (
@@ -43,9 +48,9 @@ const Cart = () => {
 
   const getCartTotal = () => {
     const taxRate = 0.0625;
-    const subTotal = cartData
+    const subTotal = cartItems
       .map(({ price, quantity }) => price * quantity)
-      .reduce((prev, curr) => prev + curr);
+      .reduce((prev, curr) => prev + curr, 0);
     const taxes = subTotal * taxRate;
     const total = subTotal + taxes;
     return {
@@ -109,13 +114,19 @@ const Cart = () => {
 
   const renderItem = ({ item }) => <Item {...item} />;
 
+  const scrollToBottom = () => {
+    cartRef.current.scrollToEnd({ animating: true });
+  };
+
   return (
     <View onLayout={getCartWidth} style={styles.cartContainer}>
       <View style={styles.topLabelsContainer}>{displayTopLabels()}</View>
       <View style={styles.cartView}>
         <View style={{ height: '100%' }}>
           <FlatList
-            data={cartData}
+            ref={cartRef}
+            onContentSizeChange={scrollToBottom}
+            data={cartItems}
             renderItem={renderItem}
             keyExtractor={item => item.id}
           />
