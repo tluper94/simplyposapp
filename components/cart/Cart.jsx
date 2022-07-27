@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 
 import { Dimensions } from 'react-native';
 
-import cartData from '../../mockData';
+import { cartData } from '../../mockData';
 
 const screenHeight = Dimensions.get('window').height;
 
