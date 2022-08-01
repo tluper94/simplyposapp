@@ -22,7 +22,10 @@ const MenuCategories = () => {
             styles.itemContainer,
             currentCategory === item.GroupID && {
               backgroundColor: colors.grey,
-              borderRightColor: colors.primary
+              borderColor: colors.primary,
+              borderWidth: 3,
+              borderBottomWidth: 3,
+              borderBottomColor: colors.primary
             }
           ]}
         >

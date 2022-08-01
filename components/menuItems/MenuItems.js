@@ -18,7 +18,7 @@ export default function MenuItems() {
     const cartItem = {
       id: item.ItemID * Math.floor(Math.random() * 10000),
       item: item.ItemName,
-      quantity: 1,
+      quantity: '1',
       price: item.DefaultUnitPrice,
       modifiers: []
     };
@@ -54,6 +54,7 @@ const styles = StyleSheet.create({
   },
   itemName: {
     color: colors.white,
-    fontSize: 18
+    fontSize: 18,
+    textAlign: 'center'
   }
 });

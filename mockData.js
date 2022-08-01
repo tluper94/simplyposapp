@@ -196,6 +196,19 @@ const store = {
       DriveThruUnitPrice: null, // float, null, 2 decimal spaces
       DeliveryUnitPrice: null // float, null, 2 decimal spaces
     },
+    ,
+    {
+      ItemID: 2000000012, // bigint, not null
+      ItemName: 'Grilled Chx Sandwich', // string, not null, up to 100 char
+      AlternateName: null, // string, null, up to 100 char
+      GroupID: 1000000004, // bigint, not null
+      DefaultUnitPrice: 12.95, // float, not null, 2 decimal spaces
+      DineInUnitPrice: null, // float, null, 2 decimal spaces
+      BarTabUnitPrice: null, // float, null, 2 decimal spaces
+      TakeOutUnitPrice: null, // float, null, 2 decimal spaces
+      DriveThruUnitPrice: null, // float, null, 2 decimal spaces
+      DeliveryUnitPrice: null // float, null, 2 decimal spaces
+    },
     {
       ItemID: 2000000004, // bigint, not null
       ItemName: '6oz Sirloin', // string, not null, up to 100 char

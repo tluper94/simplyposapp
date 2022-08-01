@@ -1,11 +1,20 @@
-import { View, Text, StyleSheet, FlatList } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  TextInput,
+  Pressable
+} from 'react-native';
 import colors from '../../theme/colors';
 import { useState, useEffect, useRef } from 'react';
 
 import { Dimensions } from 'react-native';
 
 import { cartData } from '../../mockData';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { modifyQuantity } from '../../features/cart/cartSlice';
+import Keyboard from '../keyboard/Keyboard';
 
 const screenHeight = Dimensions.get('window').height;
 
@@ -13,12 +22,11 @@ const Cart = () => {
   const cartRef = useRef();
   const [cartWidth, setCartWidth] = useState(0);
   const { cartItems } = useSelector(state => state.cart);
+  const dispatch = useDispatch();
 
   const getCartWidth = e => {
     setCartWidth(e.nativeEvent.layout.width);
   };
-
-  console.log(cartItems);
 
   const displayTopLabels = () => {
     return (
@@ -60,7 +68,7 @@ const Cart = () => {
     };
   };
 
-  const Item = ({ item, price, quantity }) => {
+  const Item = ({ item, price, quantity, id }) => {
     return (
       <View
         style={{
@@ -90,9 +98,22 @@ const Cart = () => {
                 width: cartWidth * 0.2,
                 flexDirection: 'row',
                 justifyContent: 'center',
+                alignItems: 'flex-start',
                 marginRight: cartWidth * 0.07
               }}
             >
+              {/* <Text
+                style={{
+                  borderColor: 'black',
+                  borderWidth: 2,
+                  width: '50%',
+                  textAlign: 'center'
+                }}
+                onFocus={quantityOnFocus}
+                onChangeText={onQuantityChange}
+                value={quantityTxt.toString()}
+                keyboardType="number-pad"
+              /> */}
               <Text style={{ fontSize: 18 }}>{quantity}</Text>
             </View>
             <View

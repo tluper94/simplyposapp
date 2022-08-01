@@ -114,7 +114,8 @@ const styles = StyleSheet.create({
     backgroundColor: colors.darkGrey,
     marginRight: '.2%',
     borderWidth: 1,
-    borderRadius: 18
+    borderRadius: 18,
+    zIndex: 1
   },
   menuItemsContainer: {
     flex: 3,
