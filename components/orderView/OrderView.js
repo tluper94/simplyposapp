@@ -8,9 +8,11 @@ import Material from 'react-native-vector-icons/MaterialCommunityIcons';
 import colors from '../../theme/colors';
 import MenuCategories from '../menuCategories/MenuCategories';
 import MenuItems from '../menuItems/MenuItems';
+import CartModal from '../cartModal/CartModal';
 
 const OrderView = ({ navHeight, screenHeight }) => (
   <View style={styles.orderViewContainer(navHeight, screenHeight)}>
+    <CartModal />
     <View style={{ width: '37%', marginRight: '.2%' }}>
       <Cart />
       <View

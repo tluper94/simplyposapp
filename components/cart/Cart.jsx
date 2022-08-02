@@ -10,18 +10,21 @@ import colors from '../../theme/colors';
 import { useState, useEffect, useRef } from 'react';
 
 import { Dimensions } from 'react-native';
-
-import { cartData } from '../../mockData';
 import { useSelector, useDispatch } from 'react-redux';
-import { modifyQuantity } from '../../features/cart/cartSlice';
+import {
+  modifyQuantity,
+  displayCartModal,
+  selectItem
+} from '../../features/cart/cartSlice';
 import Keyboard from '../keyboard/Keyboard';
+import CartModal from '../cartModal/CartModal';
 
 const screenHeight = Dimensions.get('window').height;
 
 const Cart = () => {
   const cartRef = useRef();
   const [cartWidth, setCartWidth] = useState(0);
-  const { cartItems } = useSelector(state => state.cart);
+  const { cartItems, isVisable } = useSelector(state => state.cart);
   const dispatch = useDispatch();
 
   const getCartWidth = e => {
@@ -68,9 +71,10 @@ const Cart = () => {
     };
   };
 
-  const Item = ({ item, price, quantity, id }) => {
+  const Item = ({ item, price, quantity, id, index }) => {
     return (
-      <View
+      <Pressable
+        onPress={() => onShowPress(index)}
         style={{
           flexDirection: 'row',
           borderBottomWidth: 1,
@@ -129,18 +133,24 @@ const Cart = () => {
             </View>
           </View>
         </View>
-      </View>
+      </Pressable>
     );
   };
 
-  const renderItem = ({ item }) => <Item {...item} />;
+  const renderItem = ({ item, index }) => <Item {...item} index={index} />;
 
   const scrollToBottom = () => {
     cartRef.current.scrollToEnd({ animating: true });
   };
 
+  const onShowPress = index => {
+    dispatch(displayCartModal());
+    dispatch(selectItem(index));
+  };
+
   return (
     <View onLayout={getCartWidth} style={styles.cartContainer}>
+      <CartModal />
       <View style={styles.topLabelsContainer}>{displayTopLabels()}</View>
       <View style={styles.cartView}>
         <View style={{ height: '100%' }}>

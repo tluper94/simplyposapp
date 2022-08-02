@@ -11,6 +11,7 @@ const colors = {
   darkMono: '#1e293b',
   darkGrey: '#252525',
   grey: '#4b4a4a',
+  lightGrey: '#cfcfcf',
   white: '#fff',
   black: '#000'
 };

@@ -27,7 +27,8 @@
     "react-native-vector-icons": "^9.2.0",
     "react-native-web": "0.17.7",
     "react-redux": "^8.0.2",
-    "twrnc": "^3.3.3"
+    "twrnc": "^3.3.3",
+    "expo-blur": "~11.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
