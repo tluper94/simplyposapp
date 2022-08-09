@@ -33,25 +33,61 @@ const Cart = () => {
 
   const displayTopLabels = () => {
     return (
-      <View style={{ flexDirection: 'row', marginRight: cartWidth * 0.1 }}>
+      <View
+        style={{
+          flexDirection: 'row',
+          width: '100%',
+          justifyContent: 'flex-end',
+          paddingLeft: cartWidth * 0.02
+        }}
+      >
         <View
           style={{
-            width: cartWidth * 0.2,
             flexDirection: 'row',
-            justifyContent: 'center',
-            marginRight: cartWidth * 0.07
+            justifyContent: 'flex-end',
+            paddingRight: '10%',
+            width: '100%'
           }}
         >
-          <Text style={styles.topLabel}>Qty</Text>
-        </View>
-        <View
-          style={{
-            width: cartWidth * 0.2,
-            flexDirection: 'row',
-            justifyContent: 'center'
-          }}
-        >
-          <Text style={styles.topLabel}>Subtotal</Text>
+          <View
+            style={{
+              width: '15%',
+              flexDirection: 'row',
+              justifyContent: 'center',
+              alignItems: 'flex-start'
+            }}
+          >
+            <Text style={styles.topLabel}>Price</Text>
+          </View>
+          <View
+            style={{
+              width: '15%',
+              flexDirection: 'row',
+              justifyContent: 'center',
+              alignItems: 'flex-start'
+            }}
+          >
+            <Text style={styles.topLabel}>Qty</Text>
+          </View>
+          <View
+            style={{
+              width: '15%',
+              flexDirection: 'row',
+              justifyContent: 'center'
+            }}
+          >
+            <Text style={styles.topLabel}>Subtotal</Text>
+          </View>
+          <View
+            style={{
+              width: '15%',
+              flexDirection: 'row',
+              justifyContent: 'center',
+              alignItems: 'flex-start'
+            }}
+          >
+            <Text style={styles.topLabel}>Discount</Text>
+          </View>
         </View>
       </View>
     );
@@ -88,6 +124,7 @@ const Cart = () => {
           style={{
             flexDirection: 'row',
             justifyContent: 'flex-end',
+            paddingRight: '10%',
             width: '100%'
           }}
         >
@@ -96,41 +133,46 @@ const Cart = () => {
           >
             {item}
           </Text>
-          <View style={{ flexDirection: 'row', marginRight: cartWidth * 0.1 }}>
-            <View
-              style={{
-                width: cartWidth * 0.2,
-                flexDirection: 'row',
-                justifyContent: 'center',
-                alignItems: 'flex-start',
-                marginRight: cartWidth * 0.07
-              }}
-            >
-              {/* <Text
-                style={{
-                  borderColor: 'black',
-                  borderWidth: 2,
-                  width: '50%',
-                  textAlign: 'center'
-                }}
-                onFocus={quantityOnFocus}
-                onChangeText={onQuantityChange}
-                value={quantityTxt.toString()}
-                keyboardType="number-pad"
-              /> */}
-              <Text style={{ fontSize: 18 }}>{quantity}</Text>
-            </View>
-            <View
-              style={{
-                width: cartWidth * 0.2,
-                flexDirection: 'row',
-                justifyContent: 'center'
-              }}
-            >
-              <Text style={{ fontSize: 18 }}>
-                ${(price * quantity).toFixed(2)}
-              </Text>
-            </View>
+          <View
+            style={{
+              width: '15%',
+              flexDirection: 'row',
+              justifyContent: 'center',
+              alignItems: 'flex-start'
+            }}
+          >
+            <Text style={{ fontSize: 18 }}>${price}</Text>
+          </View>
+          <View
+            style={{
+              width: '15%',
+              flexDirection: 'row',
+              justifyContent: 'center',
+              alignItems: 'flex-start'
+            }}
+          >
+            <Text style={{ fontSize: 18 }}>{quantity}</Text>
+          </View>
+          <View
+            style={{
+              width: '15%',
+              flexDirection: 'row',
+              justifyContent: 'center'
+            }}
+          >
+            <Text style={{ fontSize: 18 }}>
+              ${(price * quantity).toFixed(2)}
+            </Text>
+          </View>
+          <View
+            style={{
+              width: '15%',
+              flexDirection: 'row',
+              justifyContent: 'center',
+              alignItems: 'flex-start'
+            }}
+          >
+            <Text style={{ fontSize: 18 }}>{0}</Text>
           </View>
         </View>
       </Pressable>
@@ -150,7 +192,6 @@ const Cart = () => {
 
   return (
     <View onLayout={getCartWidth} style={styles.cartContainer}>
-      <CartModal />
       <View style={styles.topLabelsContainer}>{displayTopLabels()}</View>
       <View style={styles.cartView}>
         <View style={{ height: '100%' }}>
@@ -165,7 +206,25 @@ const Cart = () => {
       </View>
       <View style={styles.cartFooter}>
         <View style={styles.cartLabelContainer}>
+          <Text style={styles.cartLabel}>Subtotal:</Text>
+          <Text style={styles.cartLabelAmount}>
+            ${getCartTotal().subTotal.toFixed(2)}
+          </Text>
+        </View>
+        <View style={styles.cartLabelContainer}>
+          <Text style={styles.cartLabel}>Taxes:</Text>
+          <Text style={styles.cartLabelAmount}>
+            ${getCartTotal().taxes.toFixed(2)}
+          </Text>
+        </View>
+        <View style={styles.cartLabelContainer}>
           <Text style={styles.cartLabel}>Total:</Text>
+          <Text style={styles.cartLabelAmount}>
+            ${getCartTotal().total.toFixed(2)}
+          </Text>
+        </View>
+        <View style={styles.cartLabelContainer}>
+          <Text style={styles.cartLabel}>Discount:</Text>
           <Text style={styles.cartLabelAmount}>
             ${getCartTotal().total.toFixed(2)}
           </Text>
@@ -177,16 +236,18 @@ const Cart = () => {
 
 const styles = StyleSheet.create({
   cartContainer: {
+    position: 'absolute',
     width: '100%',
-    height: '88%',
+    height: '40%',
     backgroundColor: colors.primary,
     borderWidth: 1,
     borderRadius: 18,
-    paddingLeft: '1%',
-    paddingRight: '1%',
+    paddingLeft: '.8%',
+    paddingRight: '.8%',
     paddingTop: '.09%',
-    paddingBottom: '1%',
-    marginRight: '.2%'
+    paddingBottom: '.8%',
+    marginRight: '.2%',
+    zIndex: 99
   },
   cartView: {
     width: '100%',
@@ -195,9 +256,9 @@ const styles = StyleSheet.create({
   },
   cartFooter: {
     width: '100%',
-    height: '8%',
+    height: 30,
     flexDirection: 'row',
-    justifyContent: 'flex-end',
+    justifyContent: 'space-evenly',
     alignItems: 'center',
     backgroundColor: colors.black,
     borderBottomEndRadius: 18,

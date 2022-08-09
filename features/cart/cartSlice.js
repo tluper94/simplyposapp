@@ -23,6 +23,7 @@ const cartSlice = createSlice({
       state.isVisable = !state.isVisable;
     },
     selectItem: (state, action) => {
+      console.log(action.payload);
       state.selectedItem = action.payload;
     }
   }

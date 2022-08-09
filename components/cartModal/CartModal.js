@@ -19,7 +19,7 @@ import { BlurView } from 'expo-blur';
 
 const screenHeight = Dimensions.get('window').height;
 
-const CartModal = () => {
+const CartModal = (factory, deps) => {
   const cartRef = useRef();
   const [cartWidth, setCartWidth] = useState(0);
   const { cartItems, isVisable, selectedItem } = useSelector(
@@ -27,7 +27,7 @@ const CartModal = () => {
   );
   const dispatch = useDispatch();
 
-  const [selectedId, setSelectedId] = useState(0);
+  const [selectedId, setSelectedId] = useState(null);
 
   const getCartWidth = e => {
     setCartWidth(e.nativeEvent.layout.width);
@@ -92,144 +92,41 @@ const CartModal = () => {
       taxes
     };
   };
-  const Item = ({ item, price, quantity, id, index }) => {
-    const isSelected = id === selectedId ? true : false;
 
-    const onSelectItem = index => {
-      setSelectedId(id);
-    };
+  const onSelectHandeler = id => {
+    setSelectedId(id);
+  };
+
+  const Item = ({ item, id, price, quantity, isSelected }) => {
     return (
-      <Pressable
-        onPress={() => onSelectItem(index)}
-        style={{
-          flexDirection: 'row',
-          borderBottomWidth: 1,
-          borderBottomColor: '#a5a5a5',
-          height: isSelected ? screenHeight * 0.1 : screenHeight * 0.07,
-          paddingTop: screenHeight * 0.01,
-          paddingLeft: cartWidth * 0.02
-        }}
-      >
+      <Pressable onPress={() => onSelectHandeler(id)}>
         <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'flex-end',
-            width: '100%'
-          }}
+          style={
+            isSelected
+              ? {
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  borderBottomWidth: 2,
+                  borderBottomColor: 'grey'
+                }
+              : {
+                  flexDirection: 'row',
+                  justifyContent: 'space-between'
+                }
+          }
         >
-          <Text
-            style={{
-              fontWeight: '300',
-              fontSize: isSelected ? 22 : 18,
-              fontWeight: isSelected && '500',
-              marginRight: 'auto'
-            }}
-          >
-            {item}
-          </Text>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              marginRight: cartWidth * 0.1
-            }}
-          >
-            <View
-              style={{
-                width: cartWidth * 0.1,
-                flexDirection: 'row',
-                justifyContent: 'center',
-                alignItems: 'flex-start'
-                // marginRight: cartWidth * 0.002
-              }}
-            >
-              <View
-                style={{
-                  backgroundColor: isSelected && colors.lightGrey,
-                  borderRadius: 5,
-                  padding: 2
-                }}
-              >
-                <Text
-                  style={{
-                    fontSize: isSelected ? 22 : 18,
-                    fontWeight: isSelected && '500'
-                  }}
-                >
-                  ${price}
-                </Text>
-              </View>
-            </View>
-            <View
-              style={{
-                width: cartWidth * 0.15,
-                flexDirection: 'row',
-                justifyContent: 'center',
-                alignItems: 'flex-start'
-                // marginRight: cartWidth * 0.002
-              }}
-            >
-              <View
-                style={{
-                  backgroundColor: isSelected && colors.lightGrey,
-                  borderRadius: 5,
-                  alignItems: 'center',
-                  minWidth: '5.5%',
-                  padding: 2
-                }}
-              >
-                <Text
-                  style={{
-                    fontSize: isSelected ? 22 : 18,
-                    fontWeight: isSelected && '500'
-                  }}
-                >
-                  {quantity}
-                </Text>
-              </View>
-            </View>
-            <View
-              style={{
-                width: cartWidth * 0.15,
-                flexDirection: 'row',
-                justifyContent: 'center',
-                alignItems: 'flex-start'
-                // marginRight: cartWidth * 0.002
-              }}
-            >
-              <Text
-                style={{
-                  fontSize: isSelected ? 22 : 18,
-                  fontWeight: isSelected && '500'
-                }}
-              >
-                ${(price * quantity).toFixed(2)}
-              </Text>
-            </View>
-            <View
-              style={{
-                width: cartWidth * 0.15,
-                flexDirection: 'row',
-                justifyContent: 'center'
-              }}
-            >
-              <Text
-                style={{
-                  fontSize: isSelected ? 22 : 18,
-                  fontWeight: isSelected && '500'
-                }}
-              >
-                {0}
-              </Text>
-            </View>
-          </View>
+          <Text>{item}</Text>
+          <Text>{price}</Text>
+          <Text>{quantity}</Text>
+          <Text>{price * quantity}</Text>
         </View>
       </Pressable>
     );
   };
 
   const renderItem = ({ item, index }) => {
-    return <Item {...item} index={index} />;
+    const isSelected = selectedId === item.id;
+    return <Item {...item} index={index} isSelected={isSelected} />;
   };
 
   const scrollToIndex = () => {
@@ -244,18 +141,9 @@ const CartModal = () => {
       offset: error.averageItemLength * error.index,
       animated: true
     });
-
-    // setTimeout(() => {
-    //   if (cartRef.current !== null) {
-    //     cartRef.current.scrollToIndex({
-    //       index: error.index,
-    //       animated: true
-    //     });
-    //   }
-    // }, 20);
   };
 
-  const flatList = useMemo(() => {
+  const flatList = () => {
     return (
       <FlatList
         ref={cartRef}
@@ -267,7 +155,7 @@ const CartModal = () => {
         extraData={selectedId}
       />
     );
-  });
+  };
 
   return (
     <Modal visible={isVisable} animationType="slide" transparent>
@@ -275,7 +163,7 @@ const CartModal = () => {
         <View onLayout={getCartWidth} style={styles.cartContainer}>
           <View style={styles.topLabelsContainer}>{displayTopLabels()}</View>
           <View style={styles.cartView}>
-            <View style={{ height: '100%' }}>{flatList}</View>
+            <View style={{ height: '100%' }}>{flatList()}</View>
           </View>
           <View style={styles.cartFooter}>
             <View style={styles.cartLabelContainer}>
